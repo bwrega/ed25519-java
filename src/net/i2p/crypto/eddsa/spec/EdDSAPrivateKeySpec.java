@@ -48,13 +48,27 @@ public class EdDSAPrivateKeySpec implements KeySpec {
             throw new IllegalArgumentException("Unsupported hash algorithm");
         }
     }
+    
+    public EdDSAPrivateKeySpec(EdDSAParameterSpec spec, byte[] h) {
+    	this.seed = null;
+    	this.h = h;
+    	this.spec = spec;
+    	int b = spec.getCurve().getField().getb();
+
+        h[0] &= 248;
+        h[(b/8)-1] &= 63;
+        h[(b/8)-1] |= 64;
+        a = Arrays.copyOfRange(h, 0, b/8);
+
+        A = spec.getB().scalarMultiply(a);
+    }
 
     public EdDSAPrivateKeySpec(byte[] seed, byte[] h, byte[] a, GroupElement A, EdDSAParameterSpec spec) {
         this.seed = seed;
         this.h = h;
         this.a = a;
         this.A = A;
-        this.spec = spec;        
+        this.spec = spec;
     }
 
     public byte[] getSeed() {
