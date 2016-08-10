@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.i2p.crypto</groupId>
+  <groupId>com.realizationtime.net.i2p.crypto</groupId>
   <artifactId>eddsa</artifactId>
   <version>0.1.0</version>
   <name>ed25519-java</name>
   <packaging>bundle</packaging>
-  <description>Implementation of EdDSA in Java</description>
+  <description>Implementation of EdDSA in Java - bwbranch</description>
   <url>https://github.com/str4d/ed25519-java</url>
   <licenses>
     <license>
@@ -23,9 +23,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/str4d/ed25519-java.git</connection>
+    <connection>scm:git:git://github.com/bwrega/ed25519-java.git</connection>
     <developerConnection>scm:git:git@github.com:str4d/ed25519-java.git</developerConnection>
-    <url>https://github.com/str4d/ed25519-java</url>
+    <url>https://github.com/bwrega/ed25519-java</url>
   </scm>
   <distributionManagement>
     <snapshotRepository>
@@ -33,6 +33,17 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
+  <profiles>
+    <profile>
+      <id>disable-java8-doclint</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <additionalparam>-Xdoclint:none</additionalparam>
+      </properties>
+    </profile>
+  </profiles>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -111,20 +122,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <version>1.6.3</version>
@@ -147,7 +144,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <type>maven-plugin</type>
       <scope>test</scope>
     </dependency>
